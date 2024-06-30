@@ -302,6 +302,11 @@ public class RaffleActivityController implements IRaffleActivityService {
         }
     }
 
+    /**
+     * 查询sku商品集合
+     * @param activityId 活动ID
+     * @return sku商品集合
+     */
     @RequestMapping(value = "query_sku_product_list_by_activity_id", method = RequestMethod.POST)
     @Override
     public Response<List<SkuProductResponseDTO>> querySkuProductListByActivityId(Long activityId) {
@@ -347,6 +352,11 @@ public class RaffleActivityController implements IRaffleActivityService {
         }
     }
 
+    /**
+     * 查询用户积分值
+     * @param userId 用户ID
+     * @return 积分值
+     */
     @RequestMapping(value = "query_user_credit_account", method = RequestMethod.POST)
     @Override
     public Response<BigDecimal> queryUserCreditAccount(String userId) {
@@ -369,6 +379,11 @@ public class RaffleActivityController implements IRaffleActivityService {
     }
 
 
+    /**
+     * 积分支付兑换商品
+     * @param request 请求对象「用户ID、商品ID」
+     * @return 兑换结果
+     */
     @RequestMapping(value = "credit_pay_exchange_sku", method = RequestMethod.POST)
     @Override
     public Response<Boolean> creditPayExchangeSku(@RequestBody SkuProductShopCartRequestDTO request) {
