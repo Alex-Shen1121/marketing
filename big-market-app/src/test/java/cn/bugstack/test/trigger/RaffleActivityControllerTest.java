@@ -46,7 +46,7 @@ public class RaffleActivityControllerTest {
 
     @Test
     public void test_draw() {
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 10; i++) {
             ActivityDrawRequestDTO request = new ActivityDrawRequestDTO();
             request.setActivityId(100301L);
             request.setUserId("xiaofuge");
@@ -73,7 +73,7 @@ public class RaffleActivityControllerTest {
 
     @Test
     public void test_calendarSignRebate() throws InterruptedException {
-        Response<Boolean> response = raffleActivityService.calendarSignRebate("user002");
+        Response<Boolean> response = raffleActivityService.calendarSignRebate("xiaofuge00");
         log.info("测试结果：{}", JSON.toJSONString(response));
 
         // 让程序挺住方便测试，也可以去掉
