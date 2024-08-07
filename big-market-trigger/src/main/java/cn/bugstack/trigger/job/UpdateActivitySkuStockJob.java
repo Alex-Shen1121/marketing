@@ -34,7 +34,7 @@ public class UpdateActivitySkuStockJob {
                     try {
                         activitySkuStockKeyVO = skuStock.takeQueueValue(sku);
                     } catch (InterruptedException e) {
-                        log.error("定时任务，更新活动sku库存失败 sku: {} topic: {}", sku, activitySkuStockKeyVO.getActivityId());
+                        log.error("定时任务，更新活动sku库存失败 sku: {}", sku);
                     }
                     if (null == activitySkuStockKeyVO) return;
                     log.info("定时任务，更新活动sku库存 sku:{} activityId:{}", activitySkuStockKeyVO.getSku(), activitySkuStockKeyVO.getActivityId());
