@@ -7,6 +7,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author Fuzhengwei bugstack.cn @小傅哥
@@ -19,14 +21,26 @@ public class UpdateActivitySkuStockJob {
 
     @Resource
     private IRaffleActivitySkuStockService skuStock;
+    @Resource
+    private ThreadPoolExecutor executor;
 
     @Scheduled(cron = "0/5 * * * * ?")
     public void exec() {
         try {
-            ActivitySkuStockKeyVO activitySkuStockKeyVO = skuStock.takeQueueValue();
-            if (null == activitySkuStockKeyVO) return;
-            log.info("定时任务，更新活动sku库存 sku:{} activityId:{}", activitySkuStockKeyVO.getSku(), activitySkuStockKeyVO.getActivityId());
-            skuStock.updateActivitySkuStock(activitySkuStockKeyVO.getSku());
+            List<Long> skus = skuStock.querySkuList();
+            for (Long sku : skus) {
+                executor.execute(()->{
+                    ActivitySkuStockKeyVO activitySkuStockKeyVO = null;
+                    try {
+                        activitySkuStockKeyVO = skuStock.takeQueueValue(sku);
+                    } catch (InterruptedException e) {
+                        log.error("定时任务，更新活动sku库存失败 sku: {} topic: {}", sku, activitySkuStockKeyVO.getActivityId());
+                    }
+                    if (null == activitySkuStockKeyVO) return;
+                    log.info("定时任务，更新活动sku库存 sku:{} activityId:{}", activitySkuStockKeyVO.getSku(), activitySkuStockKeyVO.getActivityId());
+                    skuStock.updateActivitySkuStock(activitySkuStockKeyVO.getSku());
+                });
+            }
         } catch (Exception e) {
             log.error("定时任务，更新活动sku库存失败", e);
         }
