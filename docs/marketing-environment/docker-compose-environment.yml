@@ -5,7 +5,7 @@ services:
   # http://127.0.0.1:8848/nacos 【账号：nacos 密码：nacos】
   nacos:
     image: nacos/nacos-server:v2.2.3-slim
-    container_name: nacos
+    container_name: big-market-nacos
     restart: always
     ports:
       - "8848:8848"
@@ -31,7 +31,7 @@ services:
 
   mysql:
     image: mysql:8.0.32
-    container_name: mysql
+    container_name: big-market-mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
@@ -54,13 +54,13 @@ services:
   # phpmyadmin https://hub.docker.com/_/phpmyadmin
   phpmyadmin:
     image: phpmyadmin:5.2.1
-    container_name: phpmyadmin
+    container_name: big-market-phpmyadmin
     hostname: phpmyadmin
     ports:
       - 28899:80
     environment:
       - PMA_HOST=mysql
-      - PMA_PORT=3306
+      - PMA_PORT=23306
       - MYSQL_ROOT_PASSWORD=123456
     depends_on:
       mysql:
@@ -71,7 +71,7 @@ services:
   # Redis
   redis:
     image: redis:6.2
-    container_name: redis
+    container_name: big-market-redis
     restart: always
     hostname: redis
     privileged: true
@@ -92,13 +92,13 @@ services:
   # 账密 admin/admin
   redis-admin:
     image: spryker/redis-commander:0.8.0
-    container_name: redis-admin
+    container_name: big-market-redis-admin
     hostname: redis-commander
     restart: always
     ports:
       - 28081:8081
     environment:
-      - REDIS_HOSTS=local:redis:6379
+      - REDIS_HOSTS=local:redis:26379
       - HTTP_USER=admin
       - HTTP_PASSWORD=admin
       - LANG=C.UTF-8
@@ -115,7 +115,7 @@ services:
   # rabbitmq-plugins enable rabbitmq_management
   rabbitmq:
     image: rabbitmq:3.12.9
-    container_name: rabbitmq
+    container_name: big-market-rabbitmq
     restart: always
     ports:
       - "5672:5672"
@@ -129,7 +129,7 @@ services:
 
   zookeeper:
     image: zookeeper:3.9.0
-    container_name: zookeeper
+    container_name: big-market-zookeeper
     restart: always
     hostname: zoo1
     ports:
@@ -144,7 +144,7 @@ services:
   # docker cp canal-server:/home/admin/canal-server/conf/example/instance.properties /Users/xiaofuge/Documents/develop/github/xfg-studio/xfg-dev-tech-canal/docs/dev-ops/canal
   canal-server:
     image: canal/canal-server:v1.1.7
-    container_name: canal-server
+    container_name: big-market-canal-server
     restart: unless-stopped
     ports:
       - "11111:11111"
@@ -160,7 +160,7 @@ services:
   # docker cp canal-adapter:/opt/canal-adapter/conf/rdb/mytest_user.yml /Users/xiaofuge/Documents/develop/github/xfg-studio/xfg-dev-tech-canal/docs/dev-ops/canal-adapter/rdb
   canal-adapter:
     image: coopersoft/canal-adapter:v1.1.6
-    container_name: canal-adapter
+    container_name: big-market-canal-adapter
     restart: unless-stopped
     ports:
       - "8082:8081"
@@ -177,7 +177,7 @@ services:
     ports:
       - '9200:9200'
       - '9300:9300'
-    container_name: elasticsearch
+    container_name: big-market-elasticsearch
     restart: always
     environment:
       - 'cluster.name=elasticsearch' # 设置集群名称为elasticsearch
@@ -189,7 +189,7 @@ services:
 
   kibana:
     image: kibana:7.17.14
-    container_name: kibana
+    container_name: big-market-kibana
     restart: always
     volumes:
       - /etc/localtime:/etc/localtime
@@ -211,7 +211,7 @@ services:
   # 官网镜像为 xuxueli/xxl-job-admin:2.4.1 但不支持ARM架构【需要自己打包】，所以找了一个 kuschzzp/xxl-job-aarch64:2.4.0 镜像支持 AMD/ARM
   xxl-job-admin:
     image: xuxueli/xxl-job-admin:2.4.1 #M1 Mac 更换镜像 kuschzzp/xxl-job-aarch64:2.4.0
-    container_name: xxl-job-admin
+    container_name: big-market-xxl-job-admin
     restart: always
     depends_on:
       - mysql

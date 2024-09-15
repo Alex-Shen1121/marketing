@@ -17,7 +17,7 @@ app:
 # Spring 配置；rabbitmq
 spring:
   rabbitmq:
-    addresses: 192.168.1.12
+    addresses: 127.0.0.1
     port: 25672
     username: admin
     password: admin
@@ -112,7 +112,7 @@ mybatis:
 redis:
   sdk:
     config:
-      host: 192.168.1.12
+      host: 127.0.0.1
       port: 26379
       pool-size: 10
       min-idle-size: 5
@@ -145,7 +145,7 @@ zookeeper:
     config:
       # 状态；true = 开启、false 关闭
       enable: false
-      connect-string: 192.168.1.108:2181
+      connect-string: 127.0.0.1:2181
       base-sleep-time-ms: 1000
       max-retries: 3
       session-timeout-ms: 18000
@@ -158,7 +158,7 @@ xxl:
     accessToken: default_token
     # 注册地址
     admin:
-      addresses: http://192.168.1.108:9090/xxl-job-admin
+      addresses: http://127.0.0.1:9090/xxl-job-admin
     # 注册执行器
     executor:
       #  执行器注册 [选填]：优先使用该配置作为注册地址，为空时使用内嵌服务 ”IP:PORT“ 作为注册地址。从而更灵活的支持容器类型执行器动态IP和动态映射端口问题。
